@@ -18,47 +18,30 @@ namespace SoftUniList
         {
 
 
-            //stack and queue 2
-            int[] nums = Console.ReadLine()
-                .Split(' ')
-                .Select(Int32.Parse)
-                .ToArray();
-
-            Stack<int> stack = new Stack<int>();
-            foreach (int n in nums)
+            //stack and queue 6
+            string command = Console.ReadLine();
+            Queue<string> queue = new Queue<string>();
+            bool isPaid = false;
+            while (!command.Equals("End"))
             {
-                stack.Push(n);
-            }
-
-            string command = Console.ReadLine().ToLower();
-            while (!command.Equals("end"))
-            {
-                string[] tokens = command.Split(' ');
-                if (tokens[0].Equals("add"))
+                if (command.Equals("Paid"))
                 {
-                    stack.Push(Int32.Parse(tokens[1]));
-                    stack.Push(Int32.Parse(tokens[2]));
-                }
-                else
-                {
-                    int count = Int32.Parse(tokens[1]);
-                    if (count <= stack.Count)
+                    foreach (string s in queue)
                     {
-                        for (int i = 0; i < count; i++)
-                        {
-                            stack.Pop();
-                        }
+                        Console.WriteLine(s);
                     }
+                    queue.Clear();
                 }
-                command = Console.ReadLine().ToLower();
+                else {
+                    queue.Enqueue(command);
+                }
+                command = Console.ReadLine();
             }
 
-            int sum = 0;
-            foreach (int n in stack)
+            if (command.Equals("End"))
             {
-                sum = sum + n;
+                Console.WriteLine(queue.Count + " people remaining.");
             }
-            Console.WriteLine("Sum: " + sum);
 
 
             Console.ReadLine();
