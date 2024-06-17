@@ -18,30 +18,35 @@ namespace SoftUniList
         {
 
 
-            //stack and queue 6
+            //stack and queue 8
+            string number = Console.ReadLine();
+            int num = Int32.Parse(number);
+            int count = 0;
+            Queue<string> cars = new Queue<string>();
             string command = Console.ReadLine();
-            Queue<string> queue = new Queue<string>();
-            bool isPaid = false;
-            while (!command.Equals("End"))
+            while (!command.Equals("end"))
             {
-                if (command.Equals("Paid"))
+                if (!command.Equals("green"))
                 {
-                    foreach (string s in queue)
-                    {
-                        Console.WriteLine(s);
-                    }
-                    queue.Clear();
+                    cars.Enqueue(command);
                 }
-                else {
-                    queue.Enqueue(command);
+                else
+                {
+                    for (int i = 0; i < num; i++)
+                    {
+                        if (cars.Count == 0)
+                        {
+                            break;
+                        }
+                        string currCar = cars.Peek();
+                        Console.WriteLine(currCar + " passed!");
+                        count++;
+                        cars.Dequeue();
+                    }
                 }
                 command = Console.ReadLine();
             }
-
-            if (command.Equals("End"))
-            {
-                Console.WriteLine(queue.Count + " people remaining.");
-            }
+            Console.WriteLine("{0} cars passed the crossroads.", count);
 
 
             Console.ReadLine();
