@@ -17,24 +17,47 @@ namespace SoftUniList
         static void Main(string[] args)
         {
 
-            //3
-            int n = Int32.Parse(Console.ReadLine());
-            int[,] array = new int[n, n];
-            int sum = 0;
+            //5
+            int[] sizes = Console.ReadLine()
+                .Split(new string[] { ", " }, StringSplitOptions.None)
+                .Select(int.Parse)
+                .ToArray();
+            int rows = sizes[0];
+            int cols = sizes[1];
+            int[,] array = new int[rows, cols];
 
-            for (int i = 0; i < n; i++)
+            for (int i = 0; i < rows; i++)
             {
-                int[] nums = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
-                for (int j = 0; j < n; j++)
+                int[] nums = Console.ReadLine()
+                .Split(new string[] { ", " }, StringSplitOptions.None)
+                .Select(int.Parse)
+                .ToArray();
+                for (int j = 0; j < cols; j++)
                 {
                     array[i, j] = nums[j];
-                    if (i == j)
+                }
+            }
+
+            int maxSum = 0;
+            int currSum = 0;
+            int keyRow = 0;
+            int keyCol = 0;
+            for (int i = 0; i < rows - 1; i++)
+            {
+                for (int j = 0; j < cols - 1; j++)
+                {
+                    currSum = array[i, j] + array[i, j + 1] + array[i + 1, j] + array[i + 1, j + 1];
+                    if (currSum > maxSum)
                     {
-                        sum = sum + nums[j];
+                        maxSum = currSum;
+                        keyRow = i;
+                        keyCol = j;
                     }
                 }
             }
-            Console.WriteLine(sum);
+            Console.WriteLine(array[keyRow, keyCol] + " " + array[keyRow, keyCol + 1]);
+            Console.WriteLine(array[keyRow + 1, keyCol] + " " + array[keyRow + 1, keyCol + 1]);
+            Console.WriteLine(maxSum);
 
 
             Console.ReadLine();
