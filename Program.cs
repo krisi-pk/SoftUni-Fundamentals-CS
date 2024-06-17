@@ -17,44 +17,30 @@ namespace SoftUniList
         static void Main(string[] args)
         {
 
-            //fundamentals list pokemon
-            List<int> pokemons = Console.ReadLine()
-                .Split(' ')
-                .Select(Int32.Parse)
-                .ToList();
+            //1
+            int[] sizes = Console.ReadLine()
+                .Split(new string[] { ", " }, StringSplitOptions.None)
+                .Select(int.Parse)
+                .ToArray();
+            int rows = sizes[0];
+            int cols = sizes[1];
+            int[,] array = new int[rows, cols];
             int sum = 0;
-            while (pokemons.Count > 0)
+
+            for (int i = 0; i < rows; i++)
             {
-                int command = Int32.Parse(Console.ReadLine());
-                int current = 0;
-                if (command >= 0 && command < pokemons.Count)
+                int[] nums = Console.ReadLine()
+                .Split(new string[] { ", " }, StringSplitOptions.None)
+                .Select(int.Parse)
+                .ToArray();
+                for (int j = 0; j < cols; j++)
                 {
-                    current = pokemons.ElementAt(command);
-                    pokemons.RemoveAt(command);  
-                }
-                else if (command < 0)
-                {
-                    current = pokemons[0];
-                    pokemons[0] = pokemons[pokemons.Count - 1];
-                }
-                else if (command > (pokemons.Count - 1))
-                {
-                    current = pokemons[pokemons.Count - 1];
-                    pokemons[pokemons.Count - 1] = pokemons[0];
-                }
-                sum = sum + current;
-                for (int i = 0; i < pokemons.Count; i++)
-                {
-                    if (pokemons[i] <= current)
-                    {
-                        pokemons[i] = pokemons[i] + current;
-                    }
-                    else
-                    {
-                        pokemons[i] = pokemons[i] - current;
-                    }
+                    array[i, j] = nums[j];
+                    sum = sum + nums[j];
                 }
             }
+            Console.WriteLine(rows);
+            Console.WriteLine(cols);
             Console.WriteLine(sum);
 
 
