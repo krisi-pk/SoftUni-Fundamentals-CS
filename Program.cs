@@ -17,30 +17,23 @@ namespace SoftUniList
         static void Main(string[] args)
         {
 
-            //1
-            int[] sizes = Console.ReadLine()
-                .Split(new string[] { ", " }, StringSplitOptions.None)
-                .Select(int.Parse)
-                .ToArray();
-            int rows = sizes[0];
-            int cols = sizes[1];
-            int[,] array = new int[rows, cols];
+            //3
+            int n = Int32.Parse(Console.ReadLine());
+            int[,] array = new int[n, n];
             int sum = 0;
 
-            for (int i = 0; i < rows; i++)
+            for (int i = 0; i < n; i++)
             {
-                int[] nums = Console.ReadLine()
-                .Split(new string[] { ", " }, StringSplitOptions.None)
-                .Select(int.Parse)
-                .ToArray();
-                for (int j = 0; j < cols; j++)
+                int[] nums = Console.ReadLine().Split(' ').Select(int.Parse).ToArray();
+                for (int j = 0; j < n; j++)
                 {
                     array[i, j] = nums[j];
-                    sum = sum + nums[j];
+                    if (i == j)
+                    {
+                        sum = sum + nums[j];
+                    }
                 }
             }
-            Console.WriteLine(rows);
-            Console.WriteLine(cols);
             Console.WriteLine(sum);
 
 
