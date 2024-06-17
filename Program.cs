@@ -17,42 +17,45 @@ namespace SoftUniList
         static void Main(string[] args)
         {
 
-            //fundamentals list 3
-            int guests = Int32.Parse(Console.ReadLine());
-            string input = Console.ReadLine();
-            List<string> guestList = new List<string>();
-
-            for (int i = 0; i < guests; i++)
+            //fundamentals list pokemon
+            List<int> pokemons = Console.ReadLine()
+                .Split(' ')
+                .Select(Int32.Parse)
+                .ToList();
+            int sum = 0;
+            while (pokemons.Count > 0)
             {
-                string[] inputArr = input.Split(' ').ToArray();
-                if (inputArr[2].Equals("going!"))
+                int command = Int32.Parse(Console.ReadLine());
+                int current = 0;
+                if (command >= 0 && command < pokemons.Count)
                 {
-                    if (guestList.Contains(inputArr[0]))
+                    current = pokemons.ElementAt(command);
+                    pokemons.RemoveAt(command);  
+                }
+                else if (command < 0)
+                {
+                    current = pokemons[0];
+                    pokemons[0] = pokemons[pokemons.Count - 1];
+                }
+                else if (command > (pokemons.Count - 1))
+                {
+                    current = pokemons[pokemons.Count - 1];
+                    pokemons[pokemons.Count - 1] = pokemons[0];
+                }
+                sum = sum + current;
+                for (int i = 0; i < pokemons.Count; i++)
+                {
+                    if (pokemons[i] <= current)
                     {
-                        Console.WriteLine(inputArr[0] + " is already in the list!");
+                        pokemons[i] = pokemons[i] + current;
                     }
                     else
                     {
-                        guestList.Add(inputArr[0]);
+                        pokemons[i] = pokemons[i] - current;
                     }
                 }
-                else
-                {
-                    if (guestList.Contains(inputArr[0]))
-                    {
-                        guestList.Remove(inputArr[0]);
-                    }
-                    else
-                    {
-                        Console.WriteLine(inputArr[0] + " is not in the list!");
-                    }
-                }
-                input = Console.ReadLine();
             }
-            foreach (string s in guestList)
-            {
-                Console.WriteLine(s);
-            }
+            Console.WriteLine(sum);
 
 
             Console.ReadLine();
