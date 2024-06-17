@@ -18,18 +18,47 @@ namespace SoftUniList
         {
 
 
-            //stack and queue 1
-            string input = Console.ReadLine();
-            Stack<char> reversed = new Stack<char>();
+            //stack and queue 2
+            int[] nums = Console.ReadLine()
+                .Split(' ')
+                .Select(Int32.Parse)
+                .ToArray();
 
-            for (int i = 0; i < input.Length; i++)
+            Stack<int> stack = new Stack<int>();
+            foreach (int n in nums)
             {
-                reversed.Push(input[i]);
+                stack.Push(n);
             }
-            foreach (char c in reversed)
+
+            string command = Console.ReadLine().ToLower();
+            while (!command.Equals("end"))
             {
-                Console.Write(c);
+                string[] tokens = command.Split(' ');
+                if (tokens[0].Equals("add"))
+                {
+                    stack.Push(Int32.Parse(tokens[1]));
+                    stack.Push(Int32.Parse(tokens[2]));
+                }
+                else
+                {
+                    int count = Int32.Parse(tokens[1]);
+                    if (count <= stack.Count)
+                    {
+                        for (int i = 0; i < count; i++)
+                        {
+                            stack.Pop();
+                        }
+                    }
+                }
+                command = Console.ReadLine().ToLower();
             }
+
+            int sum = 0;
+            foreach (int n in stack)
+            {
+                sum = sum + n;
+            }
+            Console.WriteLine("Sum: " + sum);
 
 
             Console.ReadLine();
