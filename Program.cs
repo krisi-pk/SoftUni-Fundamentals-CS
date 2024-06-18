@@ -18,34 +18,36 @@ namespace SoftUniList
         {
 
 
-            //dictionary 2
+            //hashset 7
 
-            int n = Int32.Parse(Console.ReadLine());
-            Dictionary<string, List<double>> dict = new Dictionary<string, List<double>>();
-
-            for (int i = 0; i < n; i++)
+            string command = Console.ReadLine();
+            HashSet<string> parcking = new HashSet<string>();
+            while (!command.Equals("END"))
             {
-                string[] tokens = Console.ReadLine().Split(' ');
-                string student = tokens[0];
-                double vote = double.Parse(tokens[1]);
-                if (!dict.ContainsKey(student))
+                string[] tokens = command.Split(new string[] { ", " }, StringSplitOptions.None);
+                string activity = tokens[0];
+                string car = tokens[1];
+                if (activity.Equals("IN"))
                 {
-                    dict.Add(student, new List<double>());
+                    parcking.Add(car);
                 }
-                dict[student].Add(vote);
+                else
+                {
+                    parcking.Remove(car);
+                }
+                command = Console.ReadLine();
             }
-
-            foreach (KeyValuePair<string, List<double>> stu in dict)
+            if (parcking.Count <= 0)
             {
-                double avg = stu.Value.Sum() / stu.Value.Count;
-                string prices = "";
-                for (int i = 0; i < stu.Value.Count; i++)
-                {
-                    prices = prices + stu.Value[i].ToString() + " ";
-                }
-                Console.WriteLine(stu.Key + " -> " + prices + " (avg: " + avg + ")");
+                Console.WriteLine("Parking Lot is Empty");
             }
-
+            else {
+                foreach (string c in parcking)
+                {
+                    Console.WriteLine(c);
+                }
+            }
+            
             Console.ReadLine();
         }
     }
