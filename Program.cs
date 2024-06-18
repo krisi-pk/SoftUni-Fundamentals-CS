@@ -18,87 +18,32 @@ namespace SoftUniList
         {
 
 
-            //dictionary 8
+            //dictionary 2
 
-            string input = Console.ReadLine();
-            Dictionary<string, string> contestPassword = new Dictionary<string, string>();
+            int n = Int32.Parse(Console.ReadLine());
+            Dictionary<string, List<double>> dict = new Dictionary<string, List<double>>();
 
-            while (!input.Equals("end of contests"))
+            for (int i = 0; i < n; i++)
             {
-                string[] tokens = input.Split(':');
-                string contest = tokens[0];
-                string password = tokens[1];
-                contestPassword.Add(contest, password);
-
-                input = Console.ReadLine();
+                string[] tokens = Console.ReadLine().Split(' ');
+                string student = tokens[0];
+                double vote = double.Parse(tokens[1]);
+                if (!dict.ContainsKey(student))
+                {
+                    dict.Add(student, new List<double>());
+                }
+                dict[student].Add(vote);
             }
 
-            SortedDictionary<string, SortedDictionary<string, int>> studentsResults = new SortedDictionary<string, SortedDictionary<string, int>>();
-            input = Console.ReadLine();
-
-            while (!input.Equals("end of submissions"))
+            foreach (KeyValuePair<string, List<double>> stu in dict)
             {
-                string[] tokens = input.Split(new string[] { "=>" }, StringSplitOptions.None);
-                string contest = tokens[0];
-                string password = tokens[1];
-                if (!contestPassword.ContainsKey(contest) || !contestPassword[contest].Equals(password))
+                double avg = stu.Value.Sum() / stu.Value.Count;
+                string prices = "";
+                for (int i = 0; i < stu.Value.Count; i++)
                 {
-                    input = Console.ReadLine();
-                    continue;
+                    prices = prices + stu.Value[i].ToString() + " ";
                 }
-                string student = tokens[2];
-                int points = Int32.Parse(tokens[3]);
-                if (!studentsResults.ContainsKey(student))
-                {
-                    studentsResults.Add(student, new SortedDictionary<string, int>());
-                    studentsResults[student].Add(contest, points);
-                }
-                else if (studentsResults[student].ContainsKey(contest))
-                {
-                    int pointsAtMoment = studentsResults[student][contest];
-                    if (pointsAtMoment <= points)
-                    {
-                        studentsResults[student][contest] = points;
-                    }
-                }
-                else
-                {
-                    studentsResults[student].Add(contest, points);
-                }
-                input = Console.ReadLine();
-            }
-
-            int mostPoints = 0;
-            string mostSmart = "";
-            int currPoint = 0;
-            foreach (KeyValuePair<string, SortedDictionary<string, int>> student in studentsResults)
-            {
-                foreach (KeyValuePair<string, int> contest in student.Value)
-                {
-                    currPoint = currPoint + contest.Value;
-                }
-                if (currPoint > mostPoints)
-                {
-                    mostPoints = currPoint;
-                    mostSmart = student.Key;
-                }
-                currPoint = 0;
-            }
-
-            Console.WriteLine("Best candidate is {0} with total {1} points.", mostSmart, mostPoints);
-            Console.WriteLine("Ranking: ");
-            foreach (KeyValuePair<string, SortedDictionary<string, int>> student in studentsResults)
-            {
-                Console.WriteLine(student.Key);
-                var sortedPoints =
-                    from contest in student.Value
-                    orderby contest.Value descending
-                    select contest;
-
-                foreach (var s in sortedPoints)
-                {
-                    Console.WriteLine("#  {0} -> {1}", s.Key, s.Value);
-                }
+                Console.WriteLine(stu.Key + " -> " + prices + " (avg: " + avg + ")");
             }
 
             Console.ReadLine();
